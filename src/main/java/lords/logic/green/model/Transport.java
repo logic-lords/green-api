@@ -6,7 +6,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lords.logic.green.model.enums.TransportType;
 import lords.logic.green.model.enums.TransportTypeSize;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +18,9 @@ import java.time.Instant;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Transport {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,7 +29,7 @@ public class Transport {
     private TransportType type;
     @Enumerated(EnumType.STRING)
     private TransportTypeSize size;
-    private String placesNumber;
+    private Integer placesNumber;
     private Double co2Emission;
     private Double fuelConsumptionPerKm;
     @CreationTimestamp
