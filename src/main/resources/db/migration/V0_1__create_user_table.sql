@@ -8,4 +8,4 @@ CREATE TABLE IF NOT EXISTS "user"(
     email    VARCHAR     NOT NULL    CONSTRAINT user_email_unique   UNIQUE,
     phoneNumber    VARCHAR   CONSTRAINT user_phone_number_unique   UNIQUE,
     password    VARCHAR     NOT NULL
-);
+)

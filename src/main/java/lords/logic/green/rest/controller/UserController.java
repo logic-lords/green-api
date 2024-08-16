@@ -19,7 +19,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController("/users")
+@RestController
 @AllArgsConstructor
 @Tag(name = "User")
 public class UserController {
@@ -30,37 +30,37 @@ public class UserController {
     private final ComputeService computeService;
     private final TripEmissionMapper tripEmissionMapper;
 
-    @GetMapping
+    @GetMapping("/users")
     public List<UserDto> getUsers(){
         return service.getUsers().stream().map(mapper::toUserDto).toList();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public UserDto getUser(@PathVariable String userId){
         return mapper.toUserDto(service.getUser(userId));
     }
 
-    @GetMapping("/{userId}/trips/{tripId}")
+    @GetMapping("/users/{userId}/trips/{tripId}")
     public TripDto getTrip(@PathVariable String tripId){
         return tripMapper.toTripDto(tripService.getTrip(tripId));
     }
 
-    @GetMapping("/{userId}/trips/{tripId}/compute")
+    @GetMapping("users/{userId}/trips/{tripId}/compute")
     public TripEmissionDto getTripEmission(@PathVariable String userId, @PathVariable String tripId) {
         return tripEmissionMapper.toTripEmissionDto(computeService.computeTripCO2Emission(tripId));
     }
 
-    @GetMapping("/{userId}/daily/{date}/compute")
+    @GetMapping("users/{userId}/daily/{date}/compute")
     public TripEmissionDto getDailyEmission(@PathVariable String userId, @PathVariable LocalDate date) {
         return tripEmissionMapper.toTripEmissionDto(computeService.computeDailyCO2Consumption(userId, date));
     }
 
-    @GetMapping("/{userId}/weekly/{date}/compute")
+    @GetMapping("users/{userId}/weekly/{date}/compute")
     public TripEmissionDto getWeeklyEmission(@PathVariable String userId, @PathVariable LocalDate date) {
         return tripEmissionMapper.toTripEmissionDto(computeService.computeWeeklyCO2Consumption(userId, date));
     }
 
-    @GetMapping("/{userId}/trips")
+    @GetMapping("users/{userId}/trips")
     public List<TripDto> getTrips(){
         return tripService.getTrips().stream().map(tripMapper::toTripDto).toList();
     }

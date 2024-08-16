@@ -70,6 +70,10 @@ public class SecurityConfiguration {
 
                                         .requestMatchers(GET, "/users").hasRole(String.valueOf(Role.ADMIN))
 
+                                        .requestMatchers(PUT, "/transports").hasRole(String.valueOf(Role.ADMIN))
+
+                                        .requestMatchers(GET, "/transports/**").hasAnyRole(String.valueOf(Role.ADMIN), String.valueOf(Role.USER))
+
                                         .requestMatchers(POST, "/users/*").hasRole(String.valueOf(Role.USER))
                                         .anyRequest().authenticated()
                 )

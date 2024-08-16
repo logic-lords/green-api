@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController("/transports")
+@RestController
 @AllArgsConstructor
 @Tag(name = "Transport")
 public class TransportController {
@@ -28,23 +28,21 @@ public class TransportController {
     private final TransportMapper mapper;
     private final TransportService transportService;
 
-    @GetMapping
+    @GetMapping("/transports")
     public List<TransportDto> getTransports(){
         return service.getTransports().stream().map(mapper::toTransportDto).toList();
     }
 
-    @GetMapping("/{transportId}")
+    @GetMapping("/transports/{transportId}")
     public TransportDto getTransport(@PathVariable String transportId){
         return mapper.toTransportDto(service.getTransport(transportId));
     }
 
-    @PutMapping
+    @PutMapping("/transports")
     public List<TransportDto> cruptdateTransport(@RequestBody List<TransportDto> transportDtos){
 
         return transportService.crupdateTransport(
                 transportDtos.stream().map(mapper::toDomain).toList()
         ).stream().map(mapper::toTransportDto).toList();
     }
-
-
 }
