@@ -1,5 +1,6 @@
 package lords.logic.green.rest.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lords.logic.green.rest.dto.TripDto;
 import lords.logic.green.rest.dto.TripEmissionDto;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController("/users")
 @AllArgsConstructor
+@Tag(name = "User")
 public class UserController {
     private final UserService service;
     private final UserMapper mapper;
