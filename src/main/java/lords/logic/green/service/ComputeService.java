@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -29,6 +30,10 @@ public class ComputeService {
                 " id: " + transportId + " not found."));
 
         return (trip.getDistance() * transport.getFuelConsumptionPerKm() * transport.getCo2Emission()) / trip.getOnboard();
+    }
+
+    public Double computeTripCO2Emission(Double distance, Transport transport, Integer onboard) {
+        return (distance * transport.getFuelConsumptionPerKm() * transport.getCo2Emission()) / onboard;
     }
 
     public Double computeDailyCO2Consumption(String userId, LocalDate date) {
@@ -65,6 +70,18 @@ public class ComputeService {
         }
 
         return co2Consumption;
+    }
+
+    public HashMap<String, Double> compareTransport(Double distance, Integer onboard) {
+
+        List<Transport> transports = transportRepository.findAll();
+
+        HashMap<String, Double> comparedMap = new HashMap<>();
+        for (Transport transport : transports) {
+            comparedMap.put(transport.getType().name(), computeTripCO2Emission(distance, transport, onboard));
+        }
+
+        return comparedMap;
     }
 
 }
