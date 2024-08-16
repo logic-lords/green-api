@@ -55,6 +55,11 @@ public class UserController {
         return tripEmissionMapper.toTripEmissionDto(computeService.computeDailyCO2Consumption(userId, date));
     }
 
+    @GetMapping("/{userId}/weekly/{date}/compute")
+    public TripEmissionDto getWeeklyEmission(@PathVariable String userId, @PathVariable LocalDate date) {
+        return tripEmissionMapper.toTripEmissionDto(computeService.computeWeeklyCO2Consumption(userId, date));
+    }
+
     @GetMapping("/{userId}/trips")
     public List<TripDto> getTrips(){
         return tripService.getTrips().stream().map(tripMapper::toTripDto).toList();

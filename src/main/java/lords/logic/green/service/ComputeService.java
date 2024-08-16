@@ -8,7 +8,7 @@ import lords.logic.green.repository.TransportRepository;
 import lords.logic.green.repository.TripRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -45,4 +45,26 @@ public class ComputeService {
 
         return co2Consumption;
     }
+
+    public Double computeWeeklyCO2Consumption(String userId, LocalDate currentDate) {
+        LocalDate startOfWeek = currentDate.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = currentDate.with(DayOfWeek.SUNDAY);
+
+        List<Trip> trips = tripRepository.findTripByUserId(userId);
+
+        List<Trip> filteredTrips = trips.stream()
+                .filter(trip -> {
+                    LocalDate tripDate = trip.getCreatedDatetime().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return !tripDate.isBefore(startOfWeek) && !tripDate.isAfter(endOfWeek);
+                })
+                .toList();
+
+        Double co2Consumption = 0.0;
+        for (Trip userTrip : filteredTrips) {
+            co2Consumption += computeTripCO2Emission(userTrip.getId());
+        }
+
+        return co2Consumption;
+    }
+
 }
