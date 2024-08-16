@@ -23,6 +23,8 @@ public class Trip {
 
     private Double distance;
 
+    private Integer onboard;
+
     @ManyToOne
     @JoinColumn(name ="start_location_id")
     private Location startLocation;

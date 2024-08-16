@@ -28,7 +28,7 @@ public class ComputeService {
         Transport transport = transportRepository.findById(transportId).orElseThrow(() -> new NotFoundException("Transport of" +
                 " id: " + transportId + " not found."));
 
-        return trip.getDistance() * transport.getFuelConsumptionPerKm() * transport.getCo2Emission();
+        return (trip.getDistance() * transport.getFuelConsumptionPerKm() * transport.getCo2Emission()) / trip.getOnboard();
     }
 
     public Double computeDailyCO2Consumption(String userId, LocalDate date) {
@@ -40,7 +40,7 @@ public class ComputeService {
 
         Double co2Consumption = 0.0;
         for (Trip userTrip : filteredTrips) {
-            co2Consumption += computeTripCO2Emission(userTrip.getId());
+            co2Consumption += computeTripCO2Emission(userTrip.getId()) / userTrip.getOnboard();
         }
 
         return co2Consumption;

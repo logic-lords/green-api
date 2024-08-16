@@ -23,6 +23,7 @@ import java.time.Instant;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     private String name;
     @Enumerated(EnumType.STRING)
     private LocationType locationType;
