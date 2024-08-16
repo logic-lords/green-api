@@ -6,11 +6,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
 import lords.logic.green.model.enums.TransportType;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
+@Data
 @Entity
 public class Transport {
     @Id
@@ -19,8 +21,9 @@ public class Transport {
     @Enumerated(EnumType.STRING)
     private TransportType type;
     private String placesNumber;
-    private String co2Emission;
-    private String fuelConsumptionPerKm;
+    private Double co2Emission;
+    private Double fuelConsumptionPerKm;
     @CreationTimestamp
     private Instant createdDatetime;
 }
+
