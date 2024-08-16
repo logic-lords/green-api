@@ -40,7 +40,7 @@ public class ComputeService {
 
         Double co2Consumption = 0.0;
         for (Trip userTrip : filteredTrips) {
-            co2Consumption += computeTripCO2Emission(userTrip.getId()) / userTrip.getOnboard();
+            co2Consumption += computeTripCO2Emission(userTrip.getId());
         }
 
         return co2Consumption;

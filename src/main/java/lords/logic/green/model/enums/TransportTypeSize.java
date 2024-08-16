@@ -1,5 +1,8 @@
 package lords.logic.green.model.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum TransportTypeSize {
     SMALL(0.8),
     MID(1.0),
@@ -11,7 +14,4 @@ public enum TransportTypeSize {
         this.sizeMultiplier = sizeMultiplier;
     }
 
-    public double getSizeMultiplier() {
-        return sizeMultiplier;
-    }
 }
