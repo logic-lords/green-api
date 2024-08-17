@@ -74,7 +74,8 @@ public class SecurityConfiguration {
 
                                         .requestMatchers(GET, "/transports/**").hasAnyRole(String.valueOf(Role.ADMIN), String.valueOf(Role.USER))
 
-                                        .requestMatchers(POST, "/users/*").hasRole(String.valueOf(Role.USER))
+                                        .requestMatchers(GET, "/users/*").hasAnyRole(String.valueOf(Role.ADMIN), String.valueOf(Role.USER))
+                                        .requestMatchers(POST, "/users/*/trips-list/compute").hasAnyRole(String.valueOf(Role.ADMIN), String.valueOf(Role.USER))
                                         .anyRequest().authenticated()
                 )
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
