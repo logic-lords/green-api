@@ -10,7 +10,7 @@ import lords.logic.green.model.User;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Data
-public class AuthResponse {
-  private User user;
+public class AuthResponseDto {
+  private UserDto user;
   private String token;
 }

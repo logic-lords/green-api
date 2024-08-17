@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lords.logic.green.model.User;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @Data
-public class Auth {
-  private String email;
-  private String password;
+public class AuthResponse {
+  private User user;
+  private String token;
 }

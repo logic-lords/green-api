@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS "user"(
     first_name    VARCHAR    ,
     last_name    VARCHAR   ,
     email    VARCHAR     NOT NULL    CONSTRAINT user_email_unique   UNIQUE,
-    phoneNumber    VARCHAR   CONSTRAINT user_phone_number_unique   UNIQUE,
-    password    VARCHAR     NOT NULL
+    phone_number    VARCHAR   CONSTRAINT user_phone_number_unique   UNIQUE,
+    role varchar check (role in ('ADMIN','USER')),
+    password    VARCHAR     NOT NULL,
+    created_datetime timestamp without time zone
 )

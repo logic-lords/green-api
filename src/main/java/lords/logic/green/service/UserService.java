@@ -8,6 +8,7 @@ import lords.logic.green.model.User;
 import lords.logic.green.model.exception.NotFoundException;
 import lords.logic.green.repository.UserRepository;
 import lords.logic.green.rest.dto.Auth;
+import lords.logic.green.rest.dto.AuthResponse;
 import lords.logic.green.rest.dto.SignUp;
 import lords.logic.green.security.JwtService;
 import org.springframework.dao.DuplicateKeyException;
@@ -36,17 +37,21 @@ public class UserService {
         return repository.findAll();
     }
 
-    public Map<String, String> signIn(Auth toAuthenticate) {
+    public AuthResponse signIn(Auth toAuthenticate) {
         String email = toAuthenticate.getEmail();
+        Optional<User> existingUser = repository.findByEmail(email);
         UserDetails principal = userDetailsServiceImpl.loadUserByUsername(email);
         if (!passwordEncoder.matches(toAuthenticate.getPassword(), principal.getPassword())) {
             throw new BadCredentialsException("Wrong Password!");
         }
-        return jwtService.generate(principal);
+        Map<String, String>  token =    jwtService.generate(principal);
+        return AuthResponse.builder()
+                .token(token.get("token"))
+                .user(existingUser.get()).build();
     }
 
     @Transactional
-    public Map<String, String> signUp(SignUp user) {
+    public AuthResponse signUp(SignUp user) {
         String email = user.getEmail();
         Optional<User> existingUser = repository.findByEmail(email);
         if (existingUser.isPresent()) {
@@ -64,7 +69,10 @@ public class UserService {
                                         .build()))
                         .get(0);
         Principal principal = Principal.builder().user(createdUser).build();
-        return jwtService.generate(principal);
+        Map<String, String> token = jwtService.generate(principal);
+        return AuthResponse.builder()
+                .token(token.get("token"))
+                .user(createdUser).build();
     }
 
     @Transactional
