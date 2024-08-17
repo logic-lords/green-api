@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class ComputeService {
     private final UserService userService;
     private TripRepository tripRepository;
     private TransportRepository transportRepository;
+    private final static Double DEFAULT_CO2_VALUE = 200d;
 
     public Double computeTripCO2Emission(String tripId) {
         Trip trip = tripRepository.findById(tripId).orElseThrow(() -> new NotFoundException("Trip of" +
@@ -36,8 +38,10 @@ public class ComputeService {
         String transportId = trip.getTransport().getId();
         Transport transport = transportRepository.findById(transportId).orElseThrow(() -> new NotFoundException("Transport of" +
                 " id: " + transportId + " not found."));
-
-        return (trip.getDistance() * transport.getFuelConsumptionPerKm() * transport.getCo2Emission()) / trip.getOnboard();
+        Double transportEmission = Objects.nonNull(transport.getCo2Emission()) ?
+                transport.getCo2Emission() :
+                DEFAULT_CO2_VALUE;
+        return (trip.getDistance() * transport.getFuelConsumptionPerKm() * transportEmission) / trip.getOnboard();
     }
 
     public Double computeTripCO2Emission(Double distance, Transport transport, Integer onboard) {
