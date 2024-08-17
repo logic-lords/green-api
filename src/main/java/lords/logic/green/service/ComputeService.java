@@ -3,22 +3,29 @@ package lords.logic.green.service;
 import lombok.AllArgsConstructor;
 import lords.logic.green.model.Transport;
 import lords.logic.green.model.Trip;
+import lords.logic.green.model.User;
 import lords.logic.green.model.exception.NotFoundException;
 import lords.logic.green.repository.TransportRepository;
 import lords.logic.green.repository.TripRepository;
+import lords.logic.green.rest.dto.TripEmissionDto;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class ComputeService {
 
+    private final UserService userService;
     private TripRepository tripRepository;
     private TransportRepository transportRepository;
 
@@ -95,5 +102,28 @@ public class ComputeService {
         );
 
         return totalEmission.get();
+    }
+
+    public LinkedHashMap<User, TripEmissionDto> computeWeeklyUserRank() {
+        List<User> users = userService.getUsers();
+        HashMap<User, TripEmissionDto> weeklyUsers = new HashMap<>();
+                users.forEach(
+                        (user -> {
+                            weeklyUsers.put(user, TripEmissionDto.builder()
+                                    .emission(computeWeeklyCO2Consumption(user.getId(),
+                                            LocalDate.now())).build());
+                        })
+
+                );
+        List<Map.Entry<User, TripEmissionDto>> sortedUsers = weeklyUsers.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(entry -> entry.getValue().getEmission()))  // Sort by emission
+                .collect(Collectors.toUnmodifiableList());
+        LinkedHashMap<User, TripEmissionDto> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<User, TripEmissionDto> entry : sortedUsers) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
     }
 }
