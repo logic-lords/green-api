@@ -21,4 +21,8 @@ public class TripService {
     public List<Trip> getTrips(){
         return repository.findAll();
     }
+
+    public List<Trip> crupdateTrips(List<Trip> toSave) {
+        return repository.saveAll(toSave);
+    }
 }

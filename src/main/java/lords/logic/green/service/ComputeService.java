@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @AllArgsConstructor
@@ -84,4 +85,15 @@ public class ComputeService {
         return comparedMap;
     }
 
+    public Double computeFromTripList(List<Trip> tripList) {
+        AtomicReference<Double> totalEmission = new AtomicReference<>(0d);
+        tripList.forEach(
+                (trip) -> {
+                    totalEmission.updateAndGet(v -> v + computeTripCO2Emission(trip.getDistance(), trip.getTransport(),
+                            trip.getOnboard()));
+                }
+        );
+
+        return totalEmission.get();
+    }
 }

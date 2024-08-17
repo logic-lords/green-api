@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                                         .requestMatchers(POST, "/auth/**").permitAll()
                                         .requestMatchers(GET, "/ping").permitAll()
 
-                                        .requestMatchers(GET, "/users/**/trips/**").hasAnyRole(String.valueOf(Role.ADMIN), String.valueOf(Role.USER))
+                                        .requestMatchers(GET, "/users/*/trips/**").hasAnyRole(String.valueOf(Role.ADMIN), String.valueOf(Role.USER))
 
                                         .requestMatchers(GET, "/users").hasRole(String.valueOf(Role.ADMIN))
 

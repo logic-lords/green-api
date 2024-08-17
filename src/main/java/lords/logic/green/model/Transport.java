@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lords.logic.green.model.enums.FuelType;
 import lords.logic.green.model.enums.TransportType;
 import lords.logic.green.model.enums.TransportTypeSize;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,6 +33,8 @@ public class Transport {
     private Integer placesNumber;
     private Double co2Emission;
     private Double fuelConsumptionPerKm;
+    @Enumerated(EnumType.STRING)
+    private FuelType fuelType;
     @CreationTimestamp
     private Instant createdDatetime;
 }

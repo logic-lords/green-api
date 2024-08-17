@@ -1,4 +1,4 @@
-create table transport (
+create table if not exists transport (
     co2emission float(53),
     fuel_consumption_per_km float(53),
     onboard int,
