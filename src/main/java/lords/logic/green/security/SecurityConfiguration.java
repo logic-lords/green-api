@@ -83,6 +83,7 @@ public class SecurityConfiguration {
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors().and()
                 .build();
     }
 

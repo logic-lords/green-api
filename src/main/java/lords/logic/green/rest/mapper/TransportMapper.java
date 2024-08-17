@@ -22,7 +22,7 @@ public class TransportMapper {
         return Transport.builder()
                 .id(user.getId())
                 .placesNumber(user.getPlaceNumber())
-                .type(TransportType.valueOf(user.getType()))
+                .type(TransportType.valueOf(user.getType().toUpperCase()))
                 .fuelConsumptionPerKm(user.getFuelConsumptionPerKm())
                 .co2Emission(user.getCo2Emission())
                 .size(TransportTypeSize.valueOf(user.getSize()))

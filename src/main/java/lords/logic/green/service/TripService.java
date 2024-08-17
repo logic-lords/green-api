@@ -23,6 +23,9 @@ public class TripService {
     }
 
     public List<Trip> crupdateTrips(List<Trip> toSave) {
-        return repository.saveAll(toSave);
+        List<Trip> saved = repository.saveAll(toSave);
+        saved.forEach((trip) ->
+                trip.getTransport().setCo2Emission(200d));
+        return  saved;
     }
 }

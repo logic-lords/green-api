@@ -6,4 +6,4 @@ create table if not exists transport (
     id varchar(255) PRIMARY KEY     DEFAULT uuid_generate_v4(),
     places_number varchar(255),
     type varchar(255) check (type in ('PLANE','BUS','CAR', 'MOTO')),
-    size varchar(255) check (type in ('SMALL','MID','LARGE')))
+    size varchar(255) check (size in ('SMALL','MID','LARGE')))

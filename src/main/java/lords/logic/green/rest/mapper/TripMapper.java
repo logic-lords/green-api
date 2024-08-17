@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lords.logic.green.model.Transport;
 import lords.logic.green.model.Trip;
 import lords.logic.green.model.enums.TransportType;
+import lords.logic.green.model.enums.TransportTypeSize;
 import lords.logic.green.rest.dto.TripDto;
 import lords.logic.green.rest.dto.TripSpecsDto;
 import lords.logic.green.service.TransportService;
@@ -26,7 +27,8 @@ public class TripMapper {
     public Trip toDomain(TripSpecsDto tripSpecsDto, String userId) {
         List<Transport> saved =
                 transportService.crupdateTransport(List.of(Transport.builder()
-                .type(TransportType.valueOf(tripSpecsDto.getCarType()))
+                .type(TransportType.valueOf(tripSpecsDto.getCarType().toUpperCase()))
+                                .size(TransportTypeSize.MID)
                                 .fuelConsumptionPerKm(tripSpecsDto.getFuelConsumption())
                 .build()));
 
